@@ -1,15 +1,14 @@
 {% extends "layout.html" %}
 
-{% block title %} Login {% endblock %}
-
+{% block title %} SignUp {% endblock %}
 
 {% block body %}
+
 <section class="header">
-    <img src="example.com" alt="GamesRack logo">
-    <h1>Welcome to GamesRack!</h1>
+    <h1>Sign Up</h1>
 </section>
 
-<form id="login-form" action="example" method="POST">
+<form id="signup-form" action="example" method="POST">
     <div class="form-row">
         <label>Username:</label>
         <input type="text" id="username" name="username" required>
@@ -18,12 +17,11 @@
         <label>Password:</label>
         <input type="text" id="password" name="password" required>
     </div>
-    <button type="submit">Login</button>
-
-    <div class="signup-cta">
-        <p>New to GamesRack? <a href="{{ url_for('signup') }}">Sign Up</a></p>
+    <div class="form-row">
+        <label>Confirm Password:</label>
+        <input type="text" id="confirm_password" required>
     </div>
+    <button type="submit">Sign Up</button>
 </form>
-
 
 {% endblock %}
