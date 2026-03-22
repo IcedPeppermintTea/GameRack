@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     /* variables */
+    const signUpForm = document.querySelector("#signup-form");
     const letter = document.querySelector("#letter");
     const capital = document.querySelector("#capital");
     const number = document.querySelector("#number");
@@ -12,10 +13,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const entered_pswd = document.querySelector("#pswd");
     const confirmed_pswd = document.querySelector("#confirm_pswd");
+    const createAccBtn = document.querySelector("#create_acc");
 
+    let isPasswordValid = false;
     // password includes the necessary values
     entered_pswd.addEventListener("keyup", e=> {
         let user_input = e.target.value;
+
+        isPasswordValid = false;
 
         console.log(user_input);
         
@@ -43,8 +48,26 @@ document.addEventListener("DOMContentLoaded", function() {
         else {
             length.classList.remove("valid");
         }
+
+        if (user_input.match(valid_letters) && user_input.match(valid_capital)
+        && user_input.match(valid_number) && user_input.match(valid_lengthr)) {
+            isPasswordValid = true;
+        }
     });
 4
     // password confirmed correctly
+    createAccBtn.addEventListener("click", e => {
+        e.preventDefault();
+        let pswd = entered_pswd.value;
+        let conf_pswd = confirmed_pswd.value;
+
+        if (pswd === conf_pswd && isPasswordValid) {
+            console.log("Passwords Match!")
+            signUpForm.submit();
+        }
+        else {
+            console.log("Passwords Do Not Match!")
+        }
+    })
 
 });
