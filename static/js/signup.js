@@ -50,16 +50,16 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         if (user_input.match(valid_letters) && user_input.match(valid_capital)
-        && user_input.match(valid_number) && user_input.match(valid_lengthr)) {
+        && user_input.match(valid_number) && user_input.length >= valid_length) {
             isPasswordValid = true;
         }
     });
-4
+
     // password confirmed correctly
     createAccBtn.addEventListener("click", e => {
         e.preventDefault();
-        let pswd = entered_pswd.value;
-        let conf_pswd = confirmed_pswd.value;
+        let pswd = String(entered_pswd.value);
+        let conf_pswd = String(confirmed_pswd.value);
 
         if (pswd === conf_pswd && isPasswordValid) {
             console.log("Passwords Match!")
