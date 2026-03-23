@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request
-import re
+from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
 from flask_bcrypt import Bcrypt
+import re
 
 app = Flask(__name__)
 
@@ -38,7 +38,7 @@ def signup():
                         cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, hashed_password))
                         conn.commit()   
 
-                    return render_template("home.html")  
+                    return redirect(url_for("home"))  
 
                 else:
                     return render_template("error.html", error="Password does not match, please try again")
@@ -49,6 +49,9 @@ def signup():
     else:
         return render_template("signup.html")
 
+@app.route("/home")
+def home():
+    return render_template("home.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
