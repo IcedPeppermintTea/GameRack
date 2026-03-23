@@ -1,15 +1,42 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
 from flask_bcrypt import Bcrypt
 import re
+import os
+from dotenv import load_dotenv
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 bcrypt = Bcrypt(app)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    return render_template("index.html")
+    if request.method == "POST":
+        # validate login
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        
+        with sqlite3.connect('gamesrack.db') as conn:
+                    cursor = conn.cursor()
+                    cursor.execute("SELECT username, password FROM users WHERE username = ?", (username,))
+                    db_match = cursor.fetchone()
+                    conn.commit()
+
+        # does username exist in the db
+        if db_match is None:
+            return render_template("error.html", error="The Username entered matches no accounts")
+        else:
+            db_password = db_match[1]
+            is_pswd_valid = bcrypt.check_password_hash(db_match[1], password)
+            if (is_pswd_valid):
+                session["username"] = username
+                return redirect(url_for("home"))
+            else:
+                return render_template("error.html", error="The Password entered is incorrect")
+    else:
+        return render_template("index.html")
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
@@ -37,6 +64,8 @@ def signup():
                         cursor = conn.cursor()
                         cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, hashed_password))
                         conn.commit()   
+                    
+                    session["username"] = username
 
                     return redirect(url_for("home"))  
 
@@ -51,9 +80,15 @@ def signup():
 
 @app.route("/home")
 def home():
-    return render_template("home.html")
+    username = session.get('username')
+    return render_template("home.html", username=username)
+
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("index"))
+    
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-    

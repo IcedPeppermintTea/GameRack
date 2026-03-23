@@ -1,1 +1,3 @@
 venv/
+gamesrack.db
+.env
