@@ -8,18 +8,18 @@
     <h1>Sign Up</h1>
 </section>
 
-<form id="signup-form" action="example" method="POST">
+<form id="signup-form" action="/signup" method="POST">
     <div class="form-row">
         <label>Username:</label>
         <input type="text" id="username" name="username" required>
     </div>
     <div class="form-row">
         <label>Password:</label>
-        <input type="password" id="pswd" name="pswd" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+        <input type="password" id="pswd" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
     </div>
     <div class="form-row">
         <label>Confirm Password:</label>
-        <input type="password" id="confirm_pswd" name="confirm_pswd" required>
+        <input type="password" id="confirm_pswd" name="confirmed_password" required>
     </div>
     <button type="submit" id="create_acc">Create Account</button>
 </form>
