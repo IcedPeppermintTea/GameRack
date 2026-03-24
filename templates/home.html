@@ -4,7 +4,21 @@
 
 {% block body %}
 
-<h1>Welcome to your GameRack Home {{username}}</h1>
+<h1>Welcome {{username}}</h1>
+
+<navbar>
+    <div>
+        <img src="example.jpeg" alt="GamesRack Logo">
+        <h1>GamesRack</h1>
+    </div>
+    <input type="text" id="game_search" name="game_search" placeholder="Search Games">
+    <ul>
+        <li><a href="{{url_for('home')}}">Home</a></li>
+        <li><a href="">Library</a></li>
+        <li><a href="">Insights</a></li>
+        <li><a href="">Your Account</a></li>
+    </ul>
+</navbar>
 
 <a href="{{url_for('logout')}}">Logout</a>
 
