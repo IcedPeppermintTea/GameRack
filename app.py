@@ -5,6 +5,8 @@ import re
 import os
 from dotenv import load_dotenv
 
+load_dotenv() # load the .env file
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
