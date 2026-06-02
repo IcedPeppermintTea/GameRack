@@ -1,3 +1,4 @@
 Flask
 Flask-Session
+flask-bcrypt
 python-dotenv
