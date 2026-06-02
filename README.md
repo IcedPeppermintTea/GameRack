@@ -1,7 +1,8 @@
 # GameRack
 Personal Game Library Tracker
 
-
+## Database Setup
+This application uses PostgresSQL.
 
 ## Setup 
 ### Set up Session Secret Key
