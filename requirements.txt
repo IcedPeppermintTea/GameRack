@@ -2,3 +2,4 @@ Flask
 Flask-Session
 flask-bcrypt
 python-dotenv
+psycopg2

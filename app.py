@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-import sqlite3
+import psycopg2
 from flask_bcrypt import Bcrypt
 import re
 import os
@@ -19,10 +19,10 @@ def index():
         username = request.form.get("username")
         password = request.form.get("password")
 
-        
-        with sqlite3.connect('gamesrack.db') as conn:
+        # connect to db
+        with psycopg2.connect(os.getenv('DATABASE_URL')) as conn:
                     cursor = conn.cursor()
-                    cursor.execute("SELECT username, password FROM users WHERE username = ?", (username,))
+                    cursor.execute("SELECT username, password FROM users WHERE username = %s", (username,))
                     db_match = cursor.fetchone()
                     conn.commit()
 
@@ -62,9 +62,9 @@ def signup():
                     hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
 
                     # create user account
-                    with sqlite3.connect('gamesrack.db') as conn:
+                    with psycopg2.connect(os.getenv('DATABASE_URL')) as conn:
                         cursor = conn.cursor()
-                        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, hashed_password))
+                        cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, hashed_password))
                         conn.commit()   
                     
                     session["username"] = username
