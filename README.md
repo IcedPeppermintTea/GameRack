@@ -1,7 +1,8 @@
 # GameRack
 Personal Game Library Tracker
 
-
+## Database Setup
+This application uses PostgresSQL.
 
 ## Setup 
 ### Set up Session Secret Key
@@ -16,3 +17,6 @@ To successfully use Flask's Sessions to store and maintain a user's logging info
 3. run ```pip install -r requirements.txt```
 
 If needed, delete your virtual environment by running ```-rf venv```
+
+### How to run a virtual environment in Windows
+1. run ```.venv\Scripts\Activate.ps1```
