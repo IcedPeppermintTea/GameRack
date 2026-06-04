@@ -2,28 +2,44 @@
 
 {% block title %} Login {% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+{% endblock %}
 
 {% block body %}
-<section class="header">
-    <img src="example.com" alt="GamesRack logo">
-    <h1>Welcome to GamesRack!</h1>
-</section>
+<div class="login-card">
 
-<form id="login-form" action="/" method="POST">
+  <section class="header">
+    <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="GameRack logo">
+    <h1>Welcome to GameRack</h1>
+    <p class="subtitle">Your personal game library</p>
+  </section>
+
+  <form id="login-form" action="/" method="POST">
     <div class="form-row">
-        <label>Username:</label>
-        <input type="text" id="username" name="username" required>
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" placeholder="e.g. EmberSkull" required>
     </div>
     <div class="form-row">
-        <label>Password:</label>
-        <input type="text" id="password" name="password" required>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="••••••••" required>
     </div>
-    <button type="submit">Login</button>
+
+    {%if error_msg %}
+    <div>
+      <p>{{error_msg}}</p>
+    </div>
+    {%endif%}
+
+
+    <button type="submit">Sign in</button>
+
+    <hr class="form-divider">
 
     <div class="signup-cta">
-        <p>New to GamesRack? <a href="{{ url_for('signup') }}">Sign Up</a></p>
+      <p>New to GameRack? <a href="{{ url_for('signup') }}">Create an account</a></p>
     </div>
-</form>
+  </form>
 
-
+</div>
 {% endblock %}
