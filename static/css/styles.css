@@ -2,6 +2,10 @@
     visibility: hidden;
 }
 
+.disp-none {
+    display: none;
+}
+
 .invalid {
     color: rgb(90, 89, 89);
 }
