@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // password confirmed correctly
+    /*// password confirmed correctly
     createAccBtn.addEventListener("click", e => {
         e.preventDefault();
         let pswd = String(entered_pswd.value);
@@ -69,5 +69,7 @@ document.addEventListener("DOMContentLoaded", function() {
             console.log("Passwords Do Not Match!")
         }
     })
+
+    */
 
 });
