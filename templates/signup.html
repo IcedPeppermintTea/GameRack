@@ -1,39 +1,62 @@
 {% extends "layout.html" %}
 
-{% block title %} SignUp {% endblock %}
+{% block title %} Sign Up {% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
+{% endblock %}
 
 {% block body %}
+<div class="signup-card">
 
-<section class="header">
-    <h1>Sign Up</h1>
-</section>
+  <section class="header">
+    <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="GameRack logo">
+    <h1>Create an account</h1>
+    <p class="subtitle">Start building your game library</p>
+  </section>
 
-<form id="signup-form" action="/signup" method="POST">
+  <form id="signup-form" action="/signup" method="POST">
     <div class="form-row">
-        <label>Username:</label>
-        <input type="text" id="username" name="username" required>
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" placeholder="e.g. EmberSkull" required>
     </div>
     <div class="form-row">
-        <label>Password:</label>
-        <input type="password" id="pswd" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+      <label for="pswd">Password</label>
+      <input type="password" id="pswd" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+        placeholder="••••••••" required>
     </div>
     <div class="form-row">
-        <label>Confirm Password:</label>
-        <input type="password" id="confirm_pswd" name="confirmed_password" required>
+      <label for="confirm_pswd">Confirm Password</label>
+      <input type="password" id="confirm_pswd" name="confirmed_password" placeholder="••••••••" required>
     </div>
-    <button type="submit" id="create_acc">Create Account</button>
-</form>
 
-<div>
-    <h3>Password must contain the following:</h3>
-    <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
-    <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
-    <p id="number" class="invalid">A <b>number</b></p>
-    <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+    <div class="password-rules">
+      <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+      <p id="capital" class="invalid">A <b>capital</b> letter</p>
+      <p id="number" class="invalid">A <b>number</b></p>
+      <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div>
+      <p>{{messages[0]}}</p>
+    </div>
+    {%endif%}
+    {% endwith %}
+
+    <button type="submit" id="create_acc">Create account</button>
+
+    <hr class="form-divider">
+
+    <div class="login-cta">
+      <p>Already have an account? <a href="{{ url_for('index') }}">Sign in</a></p>
+    </div>
+  </form>
+
 </div>
-
 {% endblock %}
 
 {% block scripts %}
-<script src="{{url_for('static', filename = 'js/signup.js') }}"></script>
+<script src="{{ url_for('static', filename='js/signup.js') }}"></script>
 {% endblock %}

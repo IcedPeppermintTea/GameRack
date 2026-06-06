@@ -1,3 +1,13 @@
+/*login.css
+AI light*/
+
+
+/* Hide browser's native password reveal button as its behaving inconsistently */
+input::-ms-reveal,
+input::-ms-clear {
+    display: none;
+}
+
 .hidden {
     visibility: hidden;
 }
@@ -7,9 +17,9 @@
 }
 
 .invalid {
-    color: rgb(90, 89, 89);
+    color: rgba(255, 255, 255, 0.3);
 }
 
 .valid {
-    color: rgb(84, 82, 196);
+    color: #34D399;
 }

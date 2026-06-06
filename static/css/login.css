@@ -9,12 +9,6 @@ AI Heavy*/
   padding: 0;
 }
 
-/* Hide browser's native password reveal button as its behaving inconsistently */
-input::-ms-reveal,
-input::-ms-clear {
-  display: none;
-}
-
 body {
   min-height: 100vh;
   background-color: #0F1117;

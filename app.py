@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import psycopg2
 from flask_bcrypt import Bcrypt
 import re
@@ -51,37 +51,39 @@ def signup():
 
         # validate form values exist
         if not request.form.get("username") or not request.form.get("password") or not request.form.get("confirmed_password"):
-            return render_template("error.html", error="Invalid Form Submission"), 400
+            flash("Invalid form submission") 
         else:
-            # validate username is not taken
-
             # validate password matches criteria
             if re.search(r"[a-z]", password) and re.search(r"[A-Z]", password) and re.search(r"[0-9]", password) and len(password) >= 8:
+
                 # validate confirmed password matches password
                 if (password == confirmed_password):
-
                     # encrypt the password before adding it to the database
                     hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
-
                     # create user account
                     with psycopg2.connect(os.getenv('DATABASE_URL')) as conn:
                         cursor = conn.cursor()
-                        cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, hashed_password))
-                        conn.commit()   
-                    
-                    session["username"] = username
 
-                    # 303 - code after successful POST that redirects to a GET
-                    return redirect(url_for("home"), 303)  
+                        # validate username is not taken
+                        cursor.execute("SELECT username FROM users WHERE username = %s", (username,))
+                        db_match = cursor.fetchone()
+
+                        if db_match:
+                            flash("Username is already taken. Please try again")
+                        else:
+                            cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, hashed_password))
+                            conn.commit()   
+                            session["username"] = username
+                            return redirect(url_for("home"))  
 
                 else:
-                    return render_template("error.html", error="Password does not match, please try again"), 422
-
+                    flash("Password does not match, please try again")
             else:
-                return render_template("error.html", error="Password does not meet minimal requirements"), 422
+                flash("Password does not meet minimal requirements")
 
+        return redirect(url_for("signup"))
     else:
-        return render_template("signup.html"), 200
+        return render_template("signup.html")
 
 @app.route("/home")
 def home():
