@@ -53,8 +53,6 @@ def signup():
         if not request.form.get("username") or not request.form.get("password") or not request.form.get("confirmed_password"):
             flash("Invalid form submission") 
         else:
-            # validate username is not taken
-
             # validate password matches criteria
             if re.search(r"[a-z]", password) and re.search(r"[A-Z]", password) and re.search(r"[0-9]", password) and len(password) >= 8:
 
@@ -65,11 +63,18 @@ def signup():
                     # create user account
                     with psycopg2.connect(os.getenv('DATABASE_URL')) as conn:
                         cursor = conn.cursor()
-                        cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, hashed_password))
-                        conn.commit()   
-                    
-                    session["username"] = username
-                    return redirect(url_for("home"))  
+
+                        # validate username is not taken
+                        cursor.execute("SELECT username FROM users WHERE username = %s", (username,))
+                        db_match = cursor.fetchone()
+
+                        if db_match:
+                            flash("Username is already taken. Please try again")
+                        else:
+                            cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, hashed_password))
+                            conn.commit()   
+                            session["username"] = username
+                            return redirect(url_for("home"))  
 
                 else:
                     flash("Password does not match, please try again")
