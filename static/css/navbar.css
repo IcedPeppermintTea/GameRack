@@ -123,3 +123,16 @@
   color: #A78BFA;
   background-color: rgba(124, 58, 237, 0.12);
 }
+
+/* ── Logout link ────────────────────────────────── */
+.nav-link--logout {
+  color: rgba(255, 255, 255, 0.25);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  margin-left: 0.25rem;
+  padding-left: 1rem;
+}
+
+.nav-link--logout:hover {
+  color: #fca5a5;
+  background-color: rgba(239, 68, 68, 0.08);
+}
