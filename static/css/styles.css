@@ -1,6 +1,14 @@
 /*login.css
 AI light*/
 
+/* ── Reset / base ───────────────────────────────── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
 /* Hide browser's native password reveal button as its behaving inconsistently */
 input::-ms-reveal,

@@ -2,24 +2,20 @@
 
 {% block title %} Home {% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
 {% block body %}
+
+{% include '_navbar.html' %}
 
 <h1>Welcome {{username}}</h1>
 
-<navbar>
-    <div>
-        <img src="example.jpeg" alt="GamesRack Logo">
-        <h1>GamesRack</h1>
-    </div>
-    <input type="text" id="game_search" name="game_search" placeholder="Search Games">
-    <ul>
-        <li><a href="{{url_for('home')}}">Home</a></li>
-        <li><a href="">Library</a></li>
-        <li><a href="">Insights</a></li>
-        <li><a href="">Your Account</a></li>
-    </ul>
-</navbar>
-
 <a href="{{url_for('logout')}}">Logout</a>
 
+{% endblock %}
+
+{% block scripts %}
 {% endblock %}

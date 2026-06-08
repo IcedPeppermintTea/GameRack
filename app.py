@@ -1,15 +1,16 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 import psycopg2
 from flask_bcrypt import Bcrypt
 import re
 import os
 from dotenv import load_dotenv
+import requests
 
 load_dotenv() # load the .env file
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-
+RAWG_API_KEY = os.getenv("RAWG_API_KEY")
 bcrypt = Bcrypt(app)
 
 @app.route("/", methods=["GET", "POST"])
@@ -90,6 +91,32 @@ def home():
     username = session.get('username')
     return render_template("home.html", username=username)
 
+@app.route("/search", methods=["GET"])
+def search():
+    # read search term from url
+    r = request.args.get("q")
+
+    # call rawg api with search term
+    response = requests.get("https://api.rawg.io/api/games", params={
+        "key": RAWG_API_KEY,
+        "search": r
+    })
+
+    # parse response from rawg
+    data = response.json()
+
+    # clean the response to only include necessary fields
+    game_results = [
+        {
+        "rawg_id": game["id"],
+        "title": game["name"],
+        "cover_url": game["background_image"]
+        }
+    for game in data["results"]
+    ]
+
+    # return cleaned json data to browser
+    return jsonify(game_results)
 
 @app.route("/logout")
 def logout():
@@ -99,3 +126,5 @@ def logout():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+

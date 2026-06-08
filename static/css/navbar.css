@@ -1,0 +1,125 @@
+/* ── Navbar ─────────────────────────────────────── */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0 1.75rem;
+  height: 60px;
+  background: #1A1D27;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 1px 0 rgba(124, 58, 237, 0.08);
+}
+
+/* ── Brand ──────────────────────────────────────── */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.navbar-brand img {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: #252836;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 4px;
+}
+
+.navbar-brand span {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.92);
+  letter-spacing: -0.01em;
+}
+
+/* ── Search ─────────────────────────────────────── */
+.navbar-search {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  max-width: 360px;
+  background: #252836;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.navbar-search:focus-within {
+  border-color: #7C3AED;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.18);
+}
+
+.navbar-search input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.navbar-search input::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.navbar-search button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.4);
+  padding: 0 0.65rem;
+  height: 100%;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.navbar-search button:hover {
+  color: #A78BFA;
+}
+
+.navbar-search button svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* ── Nav links ──────────────────────────────────── */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  margin-left: auto;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: color 0.15s, background-color 0.15s;
+}
+
+.nav-link:hover {
+  color: rgba(255, 255, 255, 0.85);
+  background-color: #252836;
+}
+
+.nav-link.active {
+  color: #A78BFA;
+  background-color: rgba(124, 58, 237, 0.12);
+}
