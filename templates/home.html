@@ -13,9 +13,10 @@
 
 <h1>Welcome {{username}}</h1>
 
-
+<div id="search-results"></div>
 
 {% endblock %}
 
 {% block scripts %}
+<script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
 {% endblock %}
