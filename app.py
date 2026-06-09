@@ -118,6 +118,23 @@ def search():
     # return cleaned json data to browser
     return jsonify(game_results)
 
+
+
+@app.route("/library/add", methods=["POST"])
+def add_game():
+    # get game details from the request body
+    data = request.get_json()
+    rawg_id = data["rawg_id"]
+    title = data["title"]
+    cover_url = data["cover_url"]
+    # check that the game is not in games
+        # if it is, skip this step
+        # otherwise add it
+    # send the game details to the 'game' table
+
+    # add game to the library of this user
+    return jsonify([])
+
 @app.route("/logout")
 def logout():
     session.clear()
