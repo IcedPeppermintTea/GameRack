@@ -2,32 +2,36 @@
 
 document.addEventListener("DOMContentLoaded", function() {  
 
-    const addGameBtn = document.querySelector(".shelf-btn");
+    const resultsContainer = document.querySelector("#search-results");
 
     // on 'Add to Shelf' button click 
-    addGameBtn.addEventListener("click", async e=> {
-        // get game details
-        const gameRawgId = addGameBtn.getAttribute("data-id");
-        const gameTitle = addGameBtn.getAttribute("data-title");
-        const gameCoverImg = addGameBtn.getAttribute("data-cover");
+    resultsContainer.addEventListener("click", async e=> {
+        // check if the clicked element was a shelf button
 
-        // send Flask POST request
-        const response = await fetch("/library/add", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                rawg_id: gameRawgId,
-                title: gameTitle,
-                cover_url: gameCoverImg
-            })
-        });
+        if (e.target.classList.contains("#shelf-btn")) {
+            // get game details
+            const gameRawgId = addGameBtn.getAttribute("data-id");
+            const gameTitle = addGameBtn.getAttribute("data-title");
+            const gameCoverImg = addGameBtn.getAttribute("data-cover");
 
-        // open the envelop
-        const data = await response.json()
+            // send Flask POST request
+            const response = await fetch("/library/add", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    rawg_id: gameRawgId,
+                    title: gameTitle,
+                    cover_url: gameCoverImg
+                })
+            });
 
-        // console log for now
-        console.log(data);
+            // open the envelop
+            const data = await response.json()
+
+            // console log for now
+            console.log(data);
+        }
     })
 });
