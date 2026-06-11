@@ -11,6 +11,8 @@ load_dotenv() # load the .env file
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 RAWG_API_KEY = os.getenv("RAWG_API_KEY")
+DATABASE_URL = os.getenv('DATABASE_URL')
+
 bcrypt = Bcrypt(app)
 
 @app.route("/", methods=["GET", "POST"])
@@ -127,9 +129,21 @@ def add_game():
     rawg_id = data["rawg_id"]
     title = data["title"]
     cover_url = data["cover_url"]
-    # check that the game is not in games
-        # if it is, skip this step
-        # otherwise add it
+
+    # connect to database
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor()
+    
+    # add game if it does not exist in the database
+    cursor.execute("SELECT * FROM games WHERE rawg_id = (%s)", (rawg_id,))
+    game_found = cursor.fetchone()
+    if (game_found == None):
+        cursor.execute("INSERT INTO games (rawg_id, title, cover_url) VALUES (%s, %s, %s)", (rawg_id, title, cover_url))
+        conn.commit()
+        conn.close()
+        print("successful")
+
+
     # send the game details to the 'game' table
 
     # add game to the library of this user

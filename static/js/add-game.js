@@ -8,11 +8,11 @@ document.addEventListener("DOMContentLoaded", function() {
     resultsContainer.addEventListener("click", async e=> {
         // check if the clicked element was a shelf button
 
-        if (e.target.classList.contains("#shelf-btn")) {
+        if (e.target.classList.contains("shelf-btn")) {
             // get game details
-            const gameRawgId = addGameBtn.getAttribute("data-id");
-            const gameTitle = addGameBtn.getAttribute("data-title");
-            const gameCoverImg = addGameBtn.getAttribute("data-cover");
+            const gameRawgId = e.target.getAttribute("data-id");
+            const gameTitle = e.target.getAttribute("data-title");
+            const gameCoverImg = e.target.getAttribute("data-cover");
 
             // send Flask POST request
             const response = await fetch("/library/add", {
