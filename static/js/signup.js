@@ -54,22 +54,4 @@ document.addEventListener("DOMContentLoaded", function() {
             isPasswordValid = true;
         }
     });
-
-    /*// password confirmed correctly
-    createAccBtn.addEventListener("click", e => {
-        e.preventDefault();
-        let pswd = String(entered_pswd.value);
-        let conf_pswd = String(confirmed_pswd.value);
-
-        if (pswd === conf_pswd && isPasswordValid) {
-            console.log("Passwords Match!")
-            signUpForm.submit();
-        }
-        else {
-            console.log("Passwords Do Not Match!")
-        }
-    })
-
-    */
-
 });
