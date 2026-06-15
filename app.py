@@ -124,6 +124,9 @@ def search():
 
 @app.route("/library/add", methods=["POST"])
 def add_game():
+    # access username cookie
+    username = session.get("username")
+
     # get game details from the request body
     data = request.get_json()
     rawg_id = data["rawg_id"]
@@ -134,20 +137,31 @@ def add_game():
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor()
     
-    # add game if it does not exist in the database
+    # check if the game exists in the 'games' table, if not add it
     cursor.execute("SELECT * FROM games WHERE rawg_id = (%s)", (rawg_id,))
-    game_found = cursor.fetchone()
-    if (game_found == None):
+    game = cursor.fetchone()
+    if (game == None):
         cursor.execute("INSERT INTO games (rawg_id, title, cover_url) VALUES (%s, %s, %s)", (rawg_id, title, cover_url))
         conn.commit()
-        conn.close()
-        print("successful")
+        print("successfully added game to the database")
+        # fetch game_id
+        cursor.execute("SELECT * FROM games WHERE rawg_id = (%s)", (rawg_id,))
+        game = cursor.fetchone()
 
+    # fetch game_id
+    game_id = game[0]
 
-    # send the game details to the 'game' table
+    # fetch user_id
+    cursor.execute("SELECT id FROM users WHERE username = (%s)", (username,))
+    user = cursor.fetchone()
+    user_id = user[0]
 
     # add game to the library of this user
-    return jsonify([])
+    cursor.execute("INSERT INTO library (user_id, game_id, state) VALUES (%s, %s, %s)", (user_id, game_id, "wanted"))
+
+    conn.commit()
+    conn.close()
+    return jsonify({"success": True}) # send success response to the browser
 
 @app.route("/logout")
 def logout():
