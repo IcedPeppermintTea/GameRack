@@ -92,3 +92,13 @@ h1 {
 .shelf-btn:active {
     transform: scale(0.975);
 }
+
+/* ── Game added message ─────────────────────────── */
+.toast-msg {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(52, 211, 153, 0.25);
+    border-radius: 8px;
+    padding: 0.65rem 1rem;
+    font-size: 0.85rem;
+    color: #34D399;
+}
