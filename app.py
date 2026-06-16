@@ -163,6 +163,25 @@ def add_game():
     conn.close()
     return jsonify({"success": True}) # send success response to the browser
 
+@app.route("/library", methods=["GET"])
+def library():
+
+    username = session.get("username")
+
+    # query for all the games in user's library
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor()
+    cursor.execute("""SELECT games.title, games.cover_url, library.state, 
+    library.rating, library.review, library.date_added 
+    FROM library 
+    JOIN games ON library.game_id = games.id 
+    JOIN users ON library.user_id = users.id 
+    WHERE username = (%s)""", (username,))
+
+    games = cursor.fetchall()
+
+    return render_template("library.html", username=username, games=games)
+
 @app.route("/logout")
 def logout():
     session.clear()

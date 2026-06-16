@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %} Sign Up {% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/library.css') }}">
+{% endblock %}
+
+{%block body%}
+
+{% include '_navbar.html' %}
+
+<h1>{{username}}'s Library</h1>
+
+<!--Status: Playing-->
+
+<!--Status: Finished-->
+
+<!--Status: Owned-->
+
+<!--Status: Wanted-->
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

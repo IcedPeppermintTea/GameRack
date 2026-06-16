@@ -6,12 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
     {% block head %}{% endblock %}
 </head>
 
 <body>
     {% block body %}{% endblock %}
+
+
 </body>
+
+<script src="{{ url_for('static', filename='js/add-game.js') }}"></script>
+<script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
 
 {% block scripts %}{% endblock %}
 

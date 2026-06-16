@@ -1,0 +1,9 @@
+/*library.css
+AI Heavy*/
+
+h1 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.4);
+    padding: 2rem 1.75rem 1.5rem;
+}

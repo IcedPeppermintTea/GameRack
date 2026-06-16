@@ -3,7 +3,6 @@
 {% block title %} Home {% endblock %}
 
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 {% endblock %}
 
@@ -11,15 +10,11 @@
 
 {% include '_navbar.html' %}
 
-<div id="game-added"></div>
-
 <h1>Welcome {{username}}</h1>
-
-<div id="search-results"></div>
 
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
-<script src="{{ url_for('static', filename='js/add-game.js') }}"></script>
+
+
 {% endblock %}

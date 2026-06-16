@@ -18,10 +18,13 @@
 
   <ul class="navbar-links">
     <li><a href="{{ url_for('home') }}" class="nav-link">Home</a></li>
-    <li><a href="" class="nav-link">Library</a></li>
+    <li><a href="{{ url_for('library') }}" class="nav-link">Library</a></li>
     <li><a href="" class="nav-link">Insights</a></li>
     <li><a href="" class="nav-link">Account</a></li>
     <li><a href="{{ url_for('logout') }}" class="nav-link nav-link--logout">Logout</a></li>
   </ul>
 
 </nav>
+<div id="game-added"></div>
+
+<div id="search-results"></div>
