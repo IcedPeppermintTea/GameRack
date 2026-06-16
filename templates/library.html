@@ -1,26 +1,104 @@
 {% extends "layout.html" %}
 
-{% block title %} Sign Up {% endblock %}
+{% block title %} Library {% endblock %}
 
 {% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/library.css') }}">
 {% endblock %}
 
-{%block body%}
+{% block body %}
 
 {% include '_navbar.html' %}
 
-<h1>{{username}}'s Library</h1>
+<main class="library-main">
 
-<!--Status: Playing-->
+  <h1 class="library-heading">{{ username }}'s Library</h1>
 
-<!--Status: Finished-->
+  <!-- Status: Playing -->
+  <section class="library-section">
+    <div class="section-header">
+      <span class="status-badge status-playing">Playing</span>
+      <span class="section-count">{{ games | selectattr('2', 'equalto', 'playing') | list | length }}</span>
+    </div>
+    <div class="library-grid">
+      {% for game in games if game[2] == "playing" %}
+      <div class="game-card">
+        <img src="{{ game[1] }}" alt="{{ game[0] }}">
+        <div class="game-card__body">
+          <p class="game-card__title">{{ game[0] }}</p>
+        </div>
+      </div>
+      {% else %}
+      <p class="section-empty">No games here yet.</p>
+      {% endfor %}
+    </div>
+  </section>
 
-<!--Status: Owned-->
+  <!-- Status: Finished -->
+  <section class="library-section">
+    <div class="section-header">
+      <span class="status-badge status-finished">Finished</span>
+      <span class="section-count">{{ games | selectattr('2', 'equalto', 'finished') | list | length }}</span>
+    </div>
+    <div class="library-grid">
+      {% for game in games if game[2] == "finished" %}
+      <div class="game-card">
+        <img src="{{ game[1] }}" alt="{{ game[0] }}">
+        <div class="game-card__body">
+          <p class="game-card__title">{{ game[0] }}</p>
+        </div>
+      </div>
+      {% else %}
+      <p class="section-empty">No games here yet.</p>
+      {% endfor %}
+    </div>
+  </section>
 
-<!--Status: Wanted-->
+  <!-- Status: Owned -->
+  <section class="library-section">
+    <div class="section-header">
+      <span class="status-badge status-owned">Owned</span>
+      <span class="section-count">{{ games | selectattr('2', 'equalto', 'owned') | list | length }}</span>
+    </div>
+    <div class="library-grid">
+      {% for game in games if game[2] == "owned" %}
+      <div class="game-card">
+        <img src="{{ game[1] }}" alt="{{ game[0] }}">
+        <div class="game-card__body">
+          <p class="game-card__title">{{ game[0] }}</p>
+        </div>
+      </div>
+      {% else %}
+      <p class="section-empty">No games here yet.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Status: Wanted -->
+  <section class="library-section">
+    <div class="section-header">
+      <span class="status-badge status-wanted">Wanted</span>
+      <span class="section-count">{{ games | selectattr('2', 'equalto', 'wanted') | list | length }}</span>
+    </div>
+    <div class="library-grid">
+      {% for game in games if game[2] == "wanted" %}
+      <div class="game-card">
+        <img src="{{ game[1] }}" alt="{{ game[0] }}">
+        <div class="game-card__body">
+          <p class="game-card__title">{{ game[0] }}</p>
+        </div>
+      </div>
+      {% else %}
+      <p class="section-empty">No games here yet.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+</main>
 
 {% endblock %}
 
 {% block scripts %}
+<script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
 {% endblock %}
