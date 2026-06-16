@@ -23,7 +23,8 @@
     </div>
     <div class="library-grid">
       {% for game in games if game[2] == "playing" %}
-      <div class="game-card">
+      <div class="game-card" data-title="{{ game[0] }}" data-cover="{{ game[1] }}" data-state="{{ game[2] }}"
+        data-rating="{{ game[3] or '' }}" data-review="{{ game[4] or '' }}">
         <img src="{{ game[1] }}" alt="{{ game[0] }}">
         <div class="game-card__body">
           <p class="game-card__title">{{ game[0] }}</p>
@@ -43,7 +44,8 @@
     </div>
     <div class="library-grid">
       {% for game in games if game[2] == "finished" %}
-      <div class="game-card">
+      <div class="game-card" data-title="{{ game[0] }}" data-cover="{{ game[1] }}" data-state="{{ game[2] }}"
+        data-rating="{{ game[3] or '' }}" data-review="{{ game[4] or '' }}">
         <img src="{{ game[1] }}" alt="{{ game[0] }}">
         <div class="game-card__body">
           <p class="game-card__title">{{ game[0] }}</p>
@@ -63,7 +65,8 @@
     </div>
     <div class="library-grid">
       {% for game in games if game[2] == "owned" %}
-      <div class="game-card">
+      <div class="game-card" data-title="{{ game[0] }}" data-cover="{{ game[1] }}" data-state="{{ game[2] }}"
+        data-rating="{{ game[3] or '' }}" data-review="{{ game[4] or '' }}">
         <img src="{{ game[1] }}" alt="{{ game[0] }}">
         <div class="game-card__body">
           <p class="game-card__title">{{ game[0] }}</p>
@@ -83,7 +86,8 @@
     </div>
     <div class="library-grid">
       {% for game in games if game[2] == "wanted" %}
-      <div class="game-card">
+      <div class="game-card" data-title="{{ game[0] }}" data-cover="{{ game[1] }}" data-state="{{ game[2] }}"
+        data-rating="{{ game[3] or '' }}" data-review="{{ game[4] or '' }}">
         <img src="{{ game[1] }}" alt="{{ game[0] }}">
         <div class="game-card__body">
           <p class="game-card__title">{{ game[0] }}</p>
@@ -96,6 +100,45 @@
   </section>
 
 </main>
+
+<!-- Game detail modal -->
+<div id="game-modal" class="disp-none modal-overlay">
+  <div class="modal">
+
+    <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+
+    <div class="modal-cover-wrap">
+      <img id="modal-cover" src="" alt="">
+    </div>
+
+    <div class="modal-body">
+      <h2 id="modal-title" class="modal-title"></h2>
+
+      <div class="modal-field">
+        <label for="modal-status">Status</label>
+        <select id="modal-status" name="status">
+          <option value="wanted">Wanted</option>
+          <option value="owned">Owned</option>
+          <option value="playing">Playing</option>
+          <option value="finished">Finished</option>
+        </select>
+      </div>
+
+      <div class="modal-field">
+        <label for="modal-rating">Rating <span class="label-hint">out of 10</span></label>
+        <input type="number" id="modal-rating" name="rating" min="1" max="10" placeholder="—">
+      </div>
+
+      <div class="modal-field">
+        <label for="modal-review">Review</label>
+        <textarea id="modal-review" name="review" rows="4" placeholder="Write your thoughts…"></textarea>
+      </div>
+
+      <button class="modal-save" id="modal-save">Save changes</button>
+    </div>
+
+  </div>
+</div>
 
 {% endblock %}
 
