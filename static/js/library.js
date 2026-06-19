@@ -35,13 +35,24 @@ document.addEventListener("DOMContentLoaded", function () {
   /* Handle saving changes */
   const SaveBtn = document.querySelector("#modal-save");
 
-  SaveBtn.addEventListener("click", () => {
+  SaveBtn.addEventListener("click", async () => {
     // store the values
     const updatedStatus = document.querySelector("#modal-status").value;
     const updatedRating = document.querySelector("#modal-rating").value;
     const updatedReview = document.querySelector("#modal-review").value;
 
-    // send them in fetch request
+    // send fetch request to flask
+    const response = await fetch("placeholder/", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        status: updatedStatus,
+        rating: updatedRating,
+        review: updatedReview,
+      }),
+    });
   });
 
   /* Handle exit button*/
