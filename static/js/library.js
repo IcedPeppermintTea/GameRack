@@ -37,22 +37,40 @@ document.addEventListener("DOMContentLoaded", function () {
 
   SaveBtn.addEventListener("click", async () => {
     // store the values
+    const title = document.querySelector("#modal-title").textContent;
     const updatedStatus = document.querySelector("#modal-status").value;
     const updatedRating = document.querySelector("#modal-rating").value;
     const updatedReview = document.querySelector("#modal-review").value;
 
+    const gameEditedMsg = document.querySelector("#game-edited");
+
     // send fetch request to flask
-    const response = await fetch("placeholder/", {
+    const response = await fetch("/library/edit", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        title: title,
         status: updatedStatus,
         rating: updatedRating,
         review: updatedReview,
       }),
     });
+
+    // open the envelop
+    const data = await response.json();
+
+    // if response is successful -> close modal
+    if (data["success"] == true) {
+      gameModal.classList.toggle("disp-none");
+    } else {
+      gameEditedMsg.innerHTML = `<p class="toast-msg">Something went wrong, please try again</p>`;
+      // hide it after 3 seconds
+      setTimeout(() => {
+        gameEditedMsg.innerHTML = "";
+      }, 3000);
+    }
   });
 
   /* Handle exit button*/

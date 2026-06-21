@@ -182,6 +182,35 @@ def library():
 
     return render_template("library.html", username=username, games=games)
 
+@app.route("/library/edit", methods=["PATCH"])
+def edit_game():
+    username = session.get("username")
+
+    # get data from the request body 
+    data = request.get_json()
+
+    # assign to variables
+    title = data["title"]
+    updated_status = data["status"]
+    updated_rating = data["rating"]
+    updated_review = data["review"]
+
+    """edit the entry on the database"""
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor= conn.cursor()
+    
+    # find the game in the library of the username
+    cursor.execute("""UPDATE library
+                   SET state = %s, rating = %s, review = %s
+                   WHERE user_id = (SELECT id FROM users WHERE username = %s) 
+                   AND game_id = (SELECT id FROM games WHERE title = %s)""", 
+                   (updated_status, updated_rating, updated_review, username, title))
+    
+    conn.commit()
+    conn.close()
+    return jsonify({"success": True}) # send success response to the browser
+
+
 @app.route("/logout")
 def logout():
     session.clear()
