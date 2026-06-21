@@ -195,6 +195,16 @@ def edit_game():
     updated_rating = data["rating"]
     updated_review = data["review"]
 
+    
+
+    # convert rating to integer, handle empty string, validate range
+    if updated_rating == "" or updated_rating is None:
+        updated_rating = None
+    else:
+        updated_rating = int(updated_rating)
+        if updated_rating > 10 or updated_rating < 1:
+            return jsonify({"success": False, "error": "Rating must be between 1 and 10"})
+
     """edit the entry on the database"""
     conn = psycopg2.connect(DATABASE_URL)
     cursor= conn.cursor()

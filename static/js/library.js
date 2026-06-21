@@ -28,6 +28,8 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector("#modal-cover").alt = title;
         document.querySelector("#modal-title").textContent = title;
         document.querySelector("#modal-status").value = state;
+        document.querySelector("#modal-rating").value = rating;
+        document.querySelector("#modal-review").value = review;
       });
     });
   });
@@ -63,9 +65,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // if response is successful -> close modal
     if (data["success"] == true) {
-      gameModal.classList.toggle("disp-none");
+      location.reload();
     } else {
-      gameEditedMsg.innerHTML = `<p class="toast-msg">Something went wrong, please try again</p>`;
+      gameEditedMsg.innerHTML = `<p class="toast-msg">${data["error"]}</p>`;
       // hide it after 3 seconds
       setTimeout(() => {
         gameEditedMsg.innerHTML = "";
@@ -79,3 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
     gameModal.classList.toggle("disp-none");
   });
 });
+
+/*NOTE:
+
+continue from saving - when you save you dont end up leaving the window, check database is saving correctly*/
