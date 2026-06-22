@@ -5,6 +5,7 @@ import re
 import os
 from dotenv import load_dotenv
 import requests
+from collections import Counter
 
 load_dotenv() # load the .env file
 
@@ -112,7 +113,10 @@ def search():
         {
         "rawg_id": game["id"],
         "title": game["name"],
-        "cover_url": game["background_image"]
+        "cover_url": game["background_image"],
+        # store most prominent genre for the game
+        "genres":  game["genres"][0]["name"] if game["genres"] else None,
+        "released": game["released"]
         }
     for game in data["results"]
     ]
@@ -132,6 +136,8 @@ def add_game():
     rawg_id = data["rawg_id"]
     title = data["title"]
     cover_url = data["cover_url"]
+    genres = data["genres"]
+    released = data["released"]
 
     # connect to database
     conn = psycopg2.connect(DATABASE_URL)
@@ -141,7 +147,7 @@ def add_game():
     cursor.execute("SELECT * FROM games WHERE rawg_id = (%s)", (rawg_id,))
     game = cursor.fetchone()
     if (game == None):
-        cursor.execute("INSERT INTO games (rawg_id, title, cover_url) VALUES (%s, %s, %s)", (rawg_id, title, cover_url))
+        cursor.execute("INSERT INTO games (rawg_id, title, cover_url, genres, released) VALUES (%s, %s, %s, %s, %s)", (rawg_id, title, cover_url, genres, released))
         conn.commit()
         print("successfully added game to the database")
         # fetch game_id
@@ -219,6 +225,85 @@ def edit_game():
     conn.commit()
     conn.close()
     return jsonify({"success": True}) # send success response to the browser
+
+
+@app.route("/insights")
+def insights():
+    username = session.get("username")
+
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor= conn.cursor()
+
+    cursor.execute("""
+    SELECT games.genres, games.released
+    FROM library
+    JOIN games ON library.game_id = games.id
+    JOIN users ON library.user_id = users.id
+    WHERE users.username = %s
+""", (username,))
+    
+    rows = cursor.fetchall()
+
+    conn.commit()
+    conn.close()
+
+    # count genres
+    genre_list = [genres for genres, released in rows if genres]
+    genre_ctr = Counter(genre_list)
+
+
+    # count decades
+    decade_ctr = Counter()
+    # claude-generated: calculate decade based on release year
+    for genres, released in rows:
+        if released:
+            year = int(released[:4])
+            decade = f"{year // 10 * 10}s"
+            decade_ctr[decade] += 1
+
+    # calculate favorites & least favorites
+    favorite_genre = genre_ctr.most_common(1)
+    favorite_decade = decade_ctr.most_common(1)
+    least_favorite_genre = genre_ctr.most_common()[-1]
+    least_favorite_decade = decade_ctr.most_common()[-1]
+
+    return jsonify({
+    "genre_breakdown": dict(genre_ctr),
+    "favorite_genre": favorite_genre if favorite_genre else None,
+    "least_favorite_genre": least_favorite_genre if least_favorite_genre else None,
+    "decade_breakdown": dict(decade_ctr),
+    "favorite_decade": favorite_decade if favorite_decade else None,
+    "least_favorite_decade": least_favorite_decade if least_favorite_decade else None})
+
+
+@app.route("/library/summary")
+def library_summary():
+    username = session.get("username")
+
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor= conn.cursor()
+
+    # newest 3 additions
+    cursor.execute("""SELECT games.title, games.cover_url, games.genres, library.date_added
+                   FROM library JOIN games ON games.id = library.game_id
+                   JOIN users ON users.id = library.user_id
+                   WHERE users.username = %s
+                   ORDER BY library.date_added DESC LIMIT 3""", (username, ))
+    newest = cursor.fetchall()
+
+    # top 3 rated
+    cursor.execute("""SELECT games.title, games.cover_url, games.genres, library.rating, library.review
+                   FROM library JOIN games ON games.id = library.game_id
+                   JOIN users ON users.id = library.user_id
+                   WHERE users.username = %s AND library.rating IS NOT NULL
+                   ORDER BY library.rating DESC LIMIT 3 """, (username, ))
+    
+    top_rated = cursor.fetchall()
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({"newest": newest, "top_rated": top_rated})
 
 
 @app.route("/logout")

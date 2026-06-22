@@ -13,6 +13,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const gameRawgId = e.target.getAttribute("data-id");
       const gameTitle = e.target.getAttribute("data-title");
       const gameCoverImg = e.target.getAttribute("data-cover");
+      const gameGenres = e.target.getAttribute("data-genres");
+      const gameReleased = e.target.getAttribute("data-released");
 
       // send Flask POST request
       const response = await fetch("/library/add", {
@@ -24,6 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
           rawg_id: gameRawgId,
           title: gameTitle,
           cover_url: gameCoverImg,
+          genres: gameGenres,
+          released: gameReleased,
         }),
       });
 

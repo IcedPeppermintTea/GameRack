@@ -31,3 +31,13 @@ input::-ms-clear {
 .valid {
     color: #34D399;
 }
+
+.genres {
+    color: #A78BFA;
+    display: block;
+}
+
+.review {
+    color: rgba(255,255,255,0.5);
+    font-style: italic;
+}
