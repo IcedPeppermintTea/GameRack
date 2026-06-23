@@ -313,8 +313,8 @@ def insights():
     # calculate favorites & least favorites
     favorite_genre = genre_ctr.most_common(1)
     favorite_decade = decade_ctr.most_common(1)
-    least_favorite_genre = genre_ctr.most_common()[-1]
-    least_favorite_decade = decade_ctr.most_common()[-1]
+    least_favorite_genre = genre_ctr.most_common()[-1] if genre_ctr else None
+    least_favorite_decade = decade_ctr.most_common()[-1] if decade_ctr else None
 
     return jsonify({
     "genre_breakdown": dict(genre_ctr),
