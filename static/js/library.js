@@ -80,8 +80,38 @@ document.addEventListener("DOMContentLoaded", function () {
   closeBtn.addEventListener("click", () => {
     gameModal.classList.toggle("disp-none");
   });
+
+  /* Handle deleting game from library */
+  const deleteBtn = document.querySelector("#modal-delete");
+
+  deleteBtn.addEventListener("click", async () => {
+    const gameEditedMsg = document.querySelector("#game-edited");
+    const deleteTitle = document
+      .querySelector("#modal-title")
+      .textContent.trim();
+    console.log(deleteTitle);
+
+    // send delete request
+    const deleteResponse = await fetch("/library/delete", {
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        title: deleteTitle,
+      }),
+    });
+
+    const deleteData = await deleteResponse.json();
+
+    if (deleteData["success"] == true) {
+      location.reload();
+    } else {
+      gameEditedMsg.innerHTML = `<p class="toast-msg">${deleteData["error"]}</p>`;
+      // hide it after 3 seconds
+      setTimeout(() => {
+        gameEditedMsg.innerHTML = "";
+      }, 3000);
+    }
+  });
 });
-
-/*NOTE:
-
-continue from saving - when you save you dont end up leaving the window, check database is saving correctly*/

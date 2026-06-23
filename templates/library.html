@@ -28,6 +28,10 @@
         <img src="{{ game[1] }}" alt="{{ game[0] }}">
         <div class="game-card__body">
           <p class="game-card__title">{{ game[0] }}</p>
+          {% if game[6] %}<span class="game-card__genre">{{ game[6] }}</span>{% endif %}
+          {% if game[3] %}<p class="game-card__rating">{{ game[3] }}/10</p>{% endif %}
+          {% if game[4] %}<p class="game-card__review">"{{ game[4] }}"</p>{% endif %}
+          {% if game[5] %}<p class="game-card__date-added">Added {{ game[5] }}</p>{% endif %}
         </div>
       </div>
       {% else %}
@@ -49,6 +53,10 @@
         <img src="{{ game[1] }}" alt="{{ game[0] }}">
         <div class="game-card__body">
           <p class="game-card__title">{{ game[0] }}</p>
+          {% if game[6] %}<span class="game-card__genre">{{ game[6] }}</span>{% endif %}
+          {% if game[3] %}<p class="game-card__rating">{{ game[3] }}/10</p>{% endif %}
+          {% if game[4] %}<p class="game-card__review">"{{ game[4] }}"</p>{% endif %}
+          {% if game[5] %}<p class="game-card__date-added">Added {{ game[5] }}</p>{% endif %}
         </div>
       </div>
       {% else %}
@@ -70,6 +78,10 @@
         <img src="{{ game[1] }}" alt="{{ game[0] }}">
         <div class="game-card__body">
           <p class="game-card__title">{{ game[0] }}</p>
+          {% if game[6] %}<span class="game-card__genre">{{ game[6] }}</span>{% endif %}
+          {% if game[3] %}<p class="game-card__rating">{{ game[3] }}/10</p>{% endif %}
+          {% if game[4] %}<p class="game-card__review">"{{ game[4] }}"</p>{% endif %}
+          {% if game[5] %}<p class="game-card__date-added">Added {{ game[5] }}</p>{% endif %}
         </div>
       </div>
       {% else %}
@@ -91,6 +103,10 @@
         <img src="{{ game[1] }}" alt="{{ game[0] }}">
         <div class="game-card__body">
           <p class="game-card__title">{{ game[0] }}</p>
+          {% if game[6] %}<span class="game-card__genre">{{ game[6] }}</span>{% endif %}
+          {% if game[3] %}<p class="game-card__rating">{{ game[3] }}/10</p>{% endif %}
+          {% if game[4] %}<p class="game-card__review">"{{ game[4] }}"</p>{% endif %}
+          {% if game[5] %}<p class="game-card__date-added">Added {{ game[5] }}</p>{% endif %}
         </div>
       </div>
       {% else %}
@@ -136,6 +152,7 @@
       </div>
 
       <button class="modal-save" id="modal-save">Save changes</button>
+      <button class="modal-delete" id="modal-delete">Delete changes</button>
     </div>
   </div>
 </div>

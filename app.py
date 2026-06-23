@@ -178,13 +178,16 @@ def library():
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor()
     cursor.execute("""SELECT games.title, games.cover_url, library.state, 
-    library.rating, library.review, library.date_added 
+    library.rating, library.review, library.date_added, games.genres 
     FROM library 
     JOIN games ON library.game_id = games.id 
     JOIN users ON library.user_id = users.id 
     WHERE username = (%s)""", (username,))
 
     games = cursor.fetchall()
+
+    conn.commit()
+    conn.close()
 
     return render_template("library.html", username=username, games=games)
 
@@ -225,6 +228,30 @@ def edit_game():
     conn.commit()
     conn.close()
     return jsonify({"success": True}) # send success response to the browser
+
+
+@app.route("/library/delete", methods=["DELETE"])
+def delete_game():
+    username = session.get("username")
+
+    data = request.get_json()
+    title = data["title"]
+
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor= conn.cursor()
+    
+    # find the game in the library of the username
+    cursor.execute("""DELETE FROM library
+                   WHERE game_id = (SELECT id FROM games WHERE title = %s)
+                   AND user_id = (SELECT id FROM users WHERE username = %s)""",
+                   (title, username))
+    if cursor.rowcount == 0:
+        return jsonify({"success": False, "error": "Game not found in library"}), 404
+    
+    conn.commit()
+    conn.close()
+
+    return jsonify({"success": True})
 
 
 @app.route("/insights")
