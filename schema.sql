@@ -5,12 +5,16 @@ id SERIAL PRIMARY KEY,
 username TEXT UNIQUE NOT NULL,
 password TEXT NOT NULL
 );
+
 CREATE TABLE games (
 id SERIAL PRIMARY KEY,
 rawg_id INTEGER UNIQUE,
 title TEXT NOT NULL,
-cover_url TEXT
+cover_url TEXT,
+genres TEXT,
+released TEXT
 );
+
 CREATE TABLE library (
 id SERIAL PRIMARY KEY,
 user_id INTEGER NOT NULL,

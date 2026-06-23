@@ -12,9 +12,30 @@
 
 <h1>Welcome {{username}}</h1>
 
+<div class="home-grid">
+
+  <div class="home-section" id="recently-added">
+    <p class="section-label">Recently added</p>
+    <div class="cards-row"></div>
+  </div>
+
+  <div class="home-section" id="top-rated">
+    <p class="section-label">Top rated</p>
+    <div class="cards-row"></div>
+  </div>
+
+  <div class="home-section insights-panel" id="insights">
+    <p class="section-label">Your insights</p>
+  </div>
+
+</div>
+
+<div id="search-results"></div>
+<div id="game-added"></div>
+
+
 {% endblock %}
 
 {% block scripts %}
-
-
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
 {% endblock %}

@@ -197,6 +197,10 @@ body {
   overflow: hidden;
 }
 
+.game-card .genres {
+    padding: 0 0.75rem 0.5rem;
+}
+
 /* ── Add to shelf button ────────────────────────── */
 .shelf-btn {
   display: block;
