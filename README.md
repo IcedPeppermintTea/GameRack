@@ -6,6 +6,8 @@ Built with Flask, PostgreSQL, and vanilla HTML/CSS/JavaScript.
 
 ## Live Demo
 
+https://gamerack.up.railway.app/
+
 ## Screenshots
 
 ![Home page](screenshots/home.jpeg)
@@ -131,6 +133,9 @@ See schema [here](schema.sql).
 - **Single genre** — each game stores only its primary genre. A proper many-to-many `genres` table would allow more accurate insights.
 - **Connection pooling** — the app opens a new database connection on every request. SQLAlchemy or psycopg2's connection pool would be more efficient at scale.
 - **Error pages** — errors currently return JSON or basic messages. A proper error page template would improve the user experience.
+- **Responsiveness** — the app is designed for desktop browsers and has not been
+  optimised for mobile or tablet viewports. A responsive layout using CSS media
+  queries would be a good addition in the future.
 
 ---
 
