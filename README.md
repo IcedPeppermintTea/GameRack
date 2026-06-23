@@ -4,6 +4,14 @@ Personal Game Library Tracker — a full stack web app that lets you search for 
 
 Built with Flask, PostgreSQL, and vanilla HTML/CSS/JavaScript.
 
+## Live Demo
+
+## Screenshots
+
+![Home page](screenshots/home.jpeg)
+![Library](screenshots/library.jpeg)
+![Edit Screen](screenshots/edit-screen.jpeg)
+
 ## Features
 
 - Auth — sign up, log in, and stay logged in via Flask sessions
