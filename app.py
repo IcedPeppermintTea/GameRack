@@ -6,6 +6,7 @@ import os
 from dotenv import load_dotenv
 import requests
 from collections import Counter
+from functools import wraps
 
 load_dotenv() # load the .env file
 
@@ -15,6 +16,18 @@ RAWG_API_KEY = os.getenv("RAWG_API_KEY")
 DATABASE_URL = os.getenv('DATABASE_URL')
 
 bcrypt = Bcrypt(app)
+
+# -- Auth Guard --------- docs: https://docs.python.org/3/library/functools.html#functools.wraps
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs): # passes everything through
+        if not session.get("username"):
+            return redirect(url_for("index"))
+        else:
+            return f(*args, **kwargs) # 
+    return decorated_function
+
+# -- Routes ---------
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -90,11 +103,13 @@ def signup():
         return render_template("signup.html")
 
 @app.route("/home")
+@login_required
 def home():
     username = session.get('username')
     return render_template("home.html", username=username)
 
 @app.route("/search", methods=["GET"])
+@login_required
 def search():
     # read search term from url
     r = request.args.get("q")
@@ -127,6 +142,7 @@ def search():
 
 
 @app.route("/library/add", methods=["POST"])
+@login_required
 def add_game():
     # access username cookie
     username = session.get("username")
@@ -170,6 +186,7 @@ def add_game():
     return jsonify({"success": True}) # send success response to the browser
 
 @app.route("/library", methods=["GET"])
+@login_required
 def library():
 
     username = session.get("username")
@@ -192,6 +209,7 @@ def library():
     return render_template("library.html", username=username, games=games)
 
 @app.route("/library/edit", methods=["PATCH"])
+@login_required
 def edit_game():
     username = session.get("username")
 
@@ -231,6 +249,7 @@ def edit_game():
 
 
 @app.route("/library/delete", methods=["DELETE"])
+@login_required
 def delete_game():
     username = session.get("username")
 
@@ -245,16 +264,19 @@ def delete_game():
                    WHERE game_id = (SELECT id FROM games WHERE title = %s)
                    AND user_id = (SELECT id FROM users WHERE username = %s)""",
                    (title, username))
-    if cursor.rowcount == 0:
-        return jsonify({"success": False, "error": "Game not found in library"}), 404
+    rows_deleted = cursor.rowcount
     
     conn.commit()
     conn.close()
+
+    if rows_deleted == 0:
+        return jsonify({"success": False, "error": "Game not found in library"}), 404
 
     return jsonify({"success": True})
 
 
 @app.route("/insights")
+@login_required
 def insights():
     username = session.get("username")
 
@@ -304,6 +326,7 @@ def insights():
 
 
 @app.route("/library/summary")
+@login_required
 def library_summary():
     username = session.get("username")
 
@@ -341,5 +364,3 @@ def logout():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-

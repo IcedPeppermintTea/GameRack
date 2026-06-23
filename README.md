@@ -97,8 +97,6 @@ Visit `http://127.0.0.1:5000` in your browser.
 
 See schema [here](schema.sql).
 
-MethodRouteDescriptionAuthGET/Login pagePublicPOST/Submit loginPublicGET/signupSignup pagePublicPOST/signupCreate accountPublicGET/homeHome dashboardSession requiredGET/search?q=Search RAWG for gamesSession requiredPOST/library/addAdd game to librarySession requiredGET/libraryView user's librarySession requiredPOST/library/updateUpdate status, rating, reviewSession requiredDELETE/library/deleteRemove game from librarySession requiredGET/library/summaryRecently added + top ratedSession requiredGET/insightsGenre and decade insightsSession requiredGET/logout
-
 ## API Routes
 
 | Method | Route              | Description                   | Auth             |
@@ -121,7 +119,6 @@ MethodRouteDescriptionAuthGET/Login pagePublicPOST/Submit loginPublicGET/signupS
 
 ## Known Limitations & Future Improvements
 
-- **Auth guard** — protected routes are not yet enforced server-side. Any unauthenticated user who knows a URL can access it directly. A `@login_required` decorator should be added to all protected routes.
 - **Game identifier** — games are currently identified by title in some operations rather than `rawg_id` or `library.id`. A future refactor should pass `library.id` through the frontend for all update and delete operations to avoid edge cases with duplicate titles.
 - **Single genre** — each game stores only its primary genre. A proper many-to-many `genres` table would allow more accurate insights.
 - **Connection pooling** — the app opens a new database connection on every request. SQLAlchemy or psycopg2's connection pool would be more efficient at scale.
